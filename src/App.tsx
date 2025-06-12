@@ -14,16 +14,21 @@ function App() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [rectangles, setRectangles] = useState([
     { atr: 'trust', parentSvg: '' },
-    { atr: 'rug', parentSvg: '' },
+    { atr: 'trust', parentSvg: '' },
     { atr: 'trust', parentSvg: '' },
     { atr: 'trust', parentSvg: '' },
   ]);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    // Randomize which rectangle is 'rug'
+    const rugIndex = Math.floor(Math.random() * rectangles.length);
     // Shuffle GUY_SVGS and assign each to a rectangle without repeats
     const shuffledSvgs = [...GUY_SVGS].sort(() => Math.random() - 0.5);
-    const withUniqueSvgs = rectangles.map((rect, idx) => ({ ...rect, parentSvg: shuffledSvgs[idx % shuffledSvgs.length] }));
+    const withUniqueSvgs = rectangles.map((rect, idx) => ({
+      atr: idx === rugIndex ? 'rug' : 'trust',
+      parentSvg: shuffledSvgs[idx % shuffledSvgs.length],
+    }));
     setRectangles(withUniqueSvgs);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
