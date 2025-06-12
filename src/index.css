@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'TTRoundsNeue';
+  src: url('/font/TT Rounds Neue Trial Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+html, body {
+  font-family: 'TTRoundsNeue', sans-serif;
+}

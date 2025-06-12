@@ -50,33 +50,78 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white" onMouseMove={handleMouseMove}>
+    <div className="min-h-screen w-full" style={{ backgroundColor: '#F86568' }} onMouseMove={handleMouseMove}>
       {/* <CustomCursor position={position} /> */}
       {/* Hero Section */}
-      <header className="bg-gray-500 text-white h-screen flex flex-col">
+      <header className="text-white flex flex-col">
         <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <img src="/OWL.svg" alt="Owl Logo" className="h-16 w-16" />
             <span className="text-3xl font-bold">OWLERT</span>
           </div>
-          <button className="bg-white text-indigo-600 px-6 py-2 rounded-full font-semibold hover:bg-indigo-50 transition-colors">
-            Get Started
-          </button>
+          <div className="flex space-x-8">
+            <a
+              href="https://x.com/owlerthl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition-opacity border border-white/20 bg-white/10 rounded-full shadow-lg flex items-center justify-center h-14 w-14 mx-2"
+            >
+              <img src="/X.svg" alt="X" className="h-8 w-8" />
+            </a>
+            <a
+              href="https://t.me/owlertchat"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition-opacity border border-white/20 bg-white/10 rounded-full shadow-lg flex items-center justify-center h-14 w-14 mx-2"
+            >
+              <img src="/Telegram.svg" alt="Telegram" className="h-8 w-8" />
+            </a>
+          </div>
         </nav>
         <div className="flex flex-col items-center mt-8">
-          <button
-            className="bg-white text-indigo-600 px-6 py-2 rounded-full font-semibold hover:bg-indigo-50 transition-colors mb-24 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          <div
+            className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-6 py-2 mb-8 flex items-center justify-center cursor-pointer"
             style={{ minWidth: 260 }}
             onClick={handleCopy}
           >
-            {copied ? 'Copied!' : CONTRACT_ADDRESS}
-          </button>
+            <span className="text-white font-semibold text-center select-all">
+              {copied ? 'Copied!' : CONTRACT_ADDRESS}
+            </span>
+          </div>
+          {/* Modern Slogan Card */}
+          <div className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-8 py-6 mb-16 max-w-2xl w-full flex flex-col items-center">
+            <span className="text-2xl md:text-3xl font-extrabold text-white tracking-wide text-center drop-shadow-lg">
+              This owl won't sleep — it will keep alerting you about profit opportunities and guarding you from rugs
+            </span>
+          </div>
           <div className="container mx-auto px-6 text-center flex-grow flex flex-row justify-center items-center">
             {rectangles.map((rect, index) => (
               <Rectangle key={index} atr={rect.atr as 'rug' | 'trust'} parentSvg={rect.parentSvg} position={position} />
             ))}
           </div>
         </div>
+        {/* Modern Description Card - placed after the guys, before features */}
+        <div className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-8 py-6 mb-16 mt-32 max-w-2xl w-full flex flex-col items-center mx-auto">
+          <span className="text-2xl md:text-3xl font-extrabold text-white tracking-wide text-center drop-shadow-lg">
+            It's a bot designed to spot shady devs and help you protect yourself from rugs
+          </span>
+        </div>
+        {/* Features Section */}
+        <section className="w-full flex flex-col items-center py-16">
+          <div className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-8 py-8 max-w-3xl w-full flex flex-col items-center mx-auto">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-8 text-center drop-shadow-lg tracking-wide">Features you can use now for free:</h2>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-white text-lg mb-10 w-full">
+              <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Check what tokens this dev created before</span></li>
+              <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Check whether this dev dumped their own supply, and if they were ever involved in a rug, you'll know right away</span></li>
+              <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Links to all the essential sources for research</span></li>
+            </ul>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6 text-center drop-shadow-lg tracking-wide">Features coming soon:</h3>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-white text-lg w-full">
+              <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Token creation method where the token was launched from (directly through the LiquidLaunch platform or from other platforms / custom contracts). This will warn you about the possibility of the dev buying from external wallets</span></li>
+              <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Dev wallet tracking - we'll show where the dev got their tokens from (transferred from an exchange or another wallet). This will help you evaluate the dev's transparency and check if any of their other wallets are tied to scams</span></li>
+            </ul>
+          </div>
+        </section>
       </header>
     </div>
   );
