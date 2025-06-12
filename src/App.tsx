@@ -21,18 +21,10 @@ function App() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    // Assign a random GUY svg to each rectangle
-    const withSvgs = rectangles.map(rect => ({ ...rect, parentSvg: getRandomGuySvg() }));
-    // Shuffle the array
-    const shuffleArray = (array) => {
-      const newArray = [...array];
-      for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-      }
-      return newArray;
-    };
-    setRectangles(shuffleArray(withSvgs));
+    // Shuffle GUY_SVGS and assign each to a rectangle without repeats
+    const shuffledSvgs = [...GUY_SVGS].sort(() => Math.random() - 0.5);
+    const withUniqueSvgs = rectangles.map((rect, idx) => ({ ...rect, parentSvg: shuffledSvgs[idx % shuffledSvgs.length] }));
+    setRectangles(withUniqueSvgs);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -50,7 +42,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen w-full" style={{ backgroundColor: '#E8A3D6' }} onMouseMove={handleMouseMove}>
+    <div className="min-h-screen w-full" style={{ background: 'linear-gradient(180deg, #5C70F8 0%, #2B3576 100%)' }} onMouseMove={handleMouseMove}>
       {/* <CustomCursor position={position} /> */}
       {/* Hero Section */}
       <header className="text-white flex flex-col">
@@ -59,7 +51,13 @@ function App() {
             <img src="/OWL.svg" alt="Owl Logo" className="h-16 w-16" />
             <span className="text-3xl font-bold">OWLERT</span>
           </div>
-          <div className="flex space-x-8">
+          <div className="flex items-center space-x-6">
+            <button
+              className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-6 py-2 font-semibold text-white cursor-pointer transition hover:opacity-80"
+              onClick={() => window.open('https://t.me/owlerthl', '_blank')}
+            >
+              Try Bot
+            </button>
             <a
               href="https://x.com/owlerthl"
               target="_blank"
