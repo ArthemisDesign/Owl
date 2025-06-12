@@ -6,6 +6,12 @@ interface RectangleProps {
   position: { x: number; y: number };
 }
 
+// Constants for the magnifying glass SVG
+const GLASS_SVG_SIZE = 128; // px
+const GLASS_CENTER_X = 64;  // px (center of glass in SVG)
+const GLASS_CENTER_Y = 64;  // px (center of glass in SVG)
+const MASK_RADIUS = 64;     // px (should match glass radius)
+
 const Rectangle: React.FC<RectangleProps> = ({ atr, parentSvg, position }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [relativePosition, setRelativePosition] = useState({ x: -100, y: -100 });
@@ -13,9 +19,10 @@ const Rectangle: React.FC<RectangleProps> = ({ atr, parentSvg, position }) => {
   useEffect(() => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
+      // Offset the mask so it matches the glass center in the SVG
       setRelativePosition({
-        x: position.x - rect.left,
-        y: position.y - rect.top,
+        x: position.x - rect.left + (GLASS_CENTER_X - GLASS_SVG_SIZE / 2),
+        y: position.y - rect.top + (GLASS_CENTER_Y - GLASS_SVG_SIZE / 2),
       });
     }
   }, [position]);
@@ -25,7 +32,7 @@ const Rectangle: React.FC<RectangleProps> = ({ atr, parentSvg, position }) => {
   return (
     <div
       ref={containerRef}
-      className="relative w-64 h-[30rem] m-4 cursor-none"
+      className="relative w-64 h-[30rem] m-4"
       onMouseLeave={() => {
         setRelativePosition({ x: -100, y: -100 });
       }}
@@ -42,10 +49,8 @@ const Rectangle: React.FC<RectangleProps> = ({ atr, parentSvg, position }) => {
       <div
         className="absolute inset-0 flex items-center justify-center"
         style={{
-          maskImage: 'radial-gradient(circle 64px at center, black 100%, transparent 0)',
-          WebkitMaskImage: 'radial-gradient(circle 64px at center, black 100%, transparent 0)',
-          maskPosition: `${relativePosition.x - 64}px ${relativePosition.y - 64}px`,
-          WebkitMaskPosition: `${relativePosition.x - 64}px ${relativePosition.y - 64}px`,
+          maskImage: `radial-gradient(circle ${MASK_RADIUS}px at ${relativePosition.x}px ${relativePosition.y}px, black 100%, transparent 0)`,
+          WebkitMaskImage: `radial-gradient(circle ${MASK_RADIUS}px at ${relativePosition.x}px ${relativePosition.y}px, black 100%, transparent 0)`,
           maskRepeat: 'no-repeat',
           WebkitMaskRepeat: 'no-repeat',
         }}

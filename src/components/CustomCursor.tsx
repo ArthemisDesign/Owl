@@ -6,14 +6,21 @@ interface CustomCursorProps {
 
 const CustomCursor: React.FC<CustomCursorProps> = ({ position }) => {
   return (
-    <div
-      className="fixed w-16 h-16 rounded-full bg-white/50 pointer-events-none z-50"
+    <img
+      src="/GLASS1.svg"
+      alt="Magnifying Glass"
+      className="fixed pointer-events-none z-50"
       style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        transform: 'translate(-50%, -50%)',
+        width: 128,
+        height: 128,
+        left: position.x - 64,
+        top: position.y - 64,
+        position: 'fixed',
+        userSelect: 'none',
+        pointerEvents: 'none',
       }}
-    ></div>
+      draggable={false}
+    />
   );
 };
 
