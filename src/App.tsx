@@ -163,6 +163,12 @@ function App() {
           </div>
         </section>
       </header>
+      <div className="w-full flex justify-center items-center">
+        <div className="w-3/4 h-2 rounded-full bg-white bg-opacity-20 my-2"></div>
+      </div>
+      <footer className="w-full py-6 flex justify-center items-center">
+        <span className="text-white text-opacity-70 text-lg md:text-xl font-medium">powered by HyperLiquid</span>
+      </footer>
     </div>
   );
 }
