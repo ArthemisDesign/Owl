@@ -3,12 +3,26 @@ import { Globe2 } from 'lucide-react';
 import Rectangle from './components/Rectangle';
 import CustomCursor from './components/CustomCursor';
 
+const GUY_SVGS = ['GUY1.svg', 'GUY2.svg', 'GUY3.svg', 'GUY4.svg', 'GUY5.svg'];
+
+function getRandomGuySvg() {
+  return GUY_SVGS[Math.floor(Math.random() * GUY_SVGS.length)];
+}
+
 function App() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [rectangles, setRectangles] = useState(['trust', 'rug', 'trust', 'trust']);
+  const [rectangles, setRectangles] = useState([
+    { atr: 'trust', parentSvg: '' },
+    { atr: 'rug', parentSvg: '' },
+    { atr: 'trust', parentSvg: '' },
+    { atr: 'trust', parentSvg: '' },
+  ]);
 
   useEffect(() => {
-    const shuffleArray = (array: string[]) => {
+    // Assign a random GUY svg to each rectangle
+    const withSvgs = rectangles.map(rect => ({ ...rect, parentSvg: getRandomGuySvg() }));
+    // Shuffle the array
+    const shuffleArray = (array) => {
       const newArray = [...array];
       for (let i = newArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -16,7 +30,7 @@ function App() {
       }
       return newArray;
     };
-    setRectangles(shuffleArray(rectangles));
+    setRectangles(shuffleArray(withSvgs));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,8 +62,8 @@ function App() {
         </nav>
 
         <div className="container mx-auto px-6 text-center flex-grow flex flex-row justify-center items-center">
-          {rectangles.map((atr, index) => (
-            <Rectangle key={index} atr={atr as 'rug' | 'trust'} position={position} />
+          {rectangles.map((rect, index) => (
+            <Rectangle key={index} atr={rect.atr as 'rug' | 'trust'} parentSvg={rect.parentSvg} position={position} />
           ))}
         </div>
       </header>

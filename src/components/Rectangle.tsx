@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 interface RectangleProps {
   atr: 'rug' | 'trust';
+  parentSvg: string;
   position: { x: number; y: number };
 }
 
-const Rectangle: React.FC<RectangleProps> = ({ atr, position }) => {
-  const colorClass = atr === 'trust' ? 'bg-green-500' : 'bg-red-500';
+const Rectangle: React.FC<RectangleProps> = ({ atr, parentSvg, position }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [relativePosition, setRelativePosition] = useState({ x: -100, y: -100 });
 
@@ -20,30 +20,42 @@ const Rectangle: React.FC<RectangleProps> = ({ atr, position }) => {
     }
   }, [position]);
 
+  const childSvg = atr === 'trust' ? 'TRUST.svg' : 'RUG.svg';
+
   return (
     <div
       ref={containerRef}
-      className="relative w-32 h-60 m-4 cursor-none"
+      className="relative w-64 h-[30rem] m-4 cursor-none"
       onMouseLeave={() => {
         setRelativePosition({ x: -100, y: -100 });
       }}
       data-atr={atr}
     >
-      <div className="absolute inset-0 bg-blue-500"></div>
+      {/* Parent SVG */}
+      <img
+        src={`/${parentSvg}`}
+        alt="parent"
+        className="absolute inset-0 w-full h-full object-contain"
+        draggable={false}
+      />
+      {/* Child SVG revealed by mask */}
       <div
-        className={`absolute inset-0 ${colorClass} flex items-center justify-center`}
+        className="absolute inset-0 flex items-center justify-center"
         style={{
-          maskImage: 'radial-gradient(circle 32px at center, black 100%, transparent 0)',
-          WebkitMaskImage: 'radial-gradient(circle 32px at center, black 100%, transparent 0)',
-          maskPosition: `${relativePosition.x - 32}px ${relativePosition.y - 32}px`,
-          WebkitMaskPosition: `${relativePosition.x - 32}px ${relativePosition.y - 32}px`,
+          maskImage: 'radial-gradient(circle 64px at center, black 100%, transparent 0)',
+          WebkitMaskImage: 'radial-gradient(circle 64px at center, black 100%, transparent 0)',
+          maskPosition: `${relativePosition.x - 64}px ${relativePosition.y - 64}px`,
+          WebkitMaskPosition: `${relativePosition.x - 64}px ${relativePosition.y - 64}px`,
           maskRepeat: 'no-repeat',
           WebkitMaskRepeat: 'no-repeat',
         }}
       >
-        <span className="text-white text-2xl font-bold uppercase">
-          {atr}
-        </span>
+        <img
+          src={`/${childSvg}`}
+          alt={atr}
+          className="w-full h-full object-contain"
+          draggable={false}
+        />
       </div>
     </div>
   );
