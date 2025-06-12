@@ -5,7 +5,7 @@ import CustomCursor from './components/CustomCursor';
 
 function App() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [rectangles, setRectangles] = useState(['trust', 'rug', 'trust']);
+  const [rectangles, setRectangles] = useState(['trust', 'rug', 'trust', 'trust']);
 
   useEffect(() => {
     const shuffleArray = (array: string[]) => {
