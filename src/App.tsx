@@ -101,20 +101,22 @@ function App() {
           </div>
         </div>
         {/* Modern Description Card - placed after the guys, before features */}
-        <div className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-8 py-6 mb-16 mt-32 max-w-2xl w-full flex flex-col items-center mx-auto">
+        <div className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-8 py-6 mb-16 mt-12 max-w-2xl w-full flex flex-col items-center mx-auto">
           <span className="text-base md:text-lg font-semibold text-white tracking-wide text-center drop-shadow-lg">
             It's a bot designed to spot shady devs and help you protect yourself from rugs
           </span>
         </div>
         {/* Features Section */}
         <section className="w-full flex flex-col items-center py-16">
-          <div className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-4 py-4 max-w-2xl w-full flex flex-col items-center mx-auto text-base md:text-lg">
+          <div className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-4 py-4 max-w-2xl w-full flex flex-col items-center mx-auto text-base md:text-lg mb-8">
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-8 text-center drop-shadow-lg tracking-wide">Features you can use now for free:</h2>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-white mb-10 w-full">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-white mb-0 w-full">
               <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Check what tokens this dev created before</span></li>
               <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Check whether this dev dumped their own supply, and if they were ever involved in a rug, you'll know right away</span></li>
               <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Links to all the essential sources for research</span></li>
             </ul>
+          </div>
+          <div className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-4 py-4 max-w-2xl w-full flex flex-col items-center mx-auto text-base md:text-lg">
             <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6 text-center drop-shadow-lg tracking-wide">Features coming soon:</h3>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-white w-full">
               <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Token creation method where the token was launched from (directly through the LiquidLaunch platform or from other platforms / custom contracts). This will warn you about the possibility of the dev buying from external wallets</span></li>
