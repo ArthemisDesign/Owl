@@ -4,6 +4,7 @@ import Rectangle from './components/Rectangle';
 import CustomCursor from './components/CustomCursor';
 import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 import OwlAnimation from './assets/OWL.json';
+import rugSoundSrc from './assets/RUG.ogg';
 
 const GUY_SVGS = ['GUY1.svg', 'GUY2.svg', 'GUY3.svg', 'GUY4.svg', 'GUY5.svg'];
 const CONTRACT_ADDRESS = '0x1234...abcd';
@@ -23,6 +24,46 @@ function App() {
   const [copied, setCopied] = useState(false);
   const [owlPlaying, setOwlPlaying] = useState(false);
   const owlRef = React.useRef<LottieRefCurrentProps>(null);
+  const rugAudioRef = React.useRef<HTMLAudioElement | null>(null);
+
+  // Effect to unlock audio on first user interaction
+  useEffect(() => {
+    const unlockAudio = () => {
+      const audio = rugAudioRef.current;
+      if (audio && audio.paused) {
+        // A short, silent play attempt to unlock the audio context
+        const originalVolume = audio.volume;
+        audio.volume = 0;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              audio.pause();
+              audio.currentTime = 0;
+              audio.volume = originalVolume;
+            })
+            .catch(() => {
+              // If it fails, restore volume anyway
+              audio.volume = originalVolume;
+            });
+        }
+      }
+      // Clean up event listeners after the first interaction
+      document.removeEventListener('click', unlockAudio);
+      document.removeEventListener('keydown', unlockAudio);
+      document.removeEventListener('touchstart', unlockAudio);
+    };
+
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('keydown', unlockAudio);
+    document.addEventListener('touchstart', unlockAudio);
+
+    return () => {
+      document.removeEventListener('click', unlockAudio);
+      document.removeEventListener('keydown', unlockAudio);
+      document.removeEventListener('touchstart', unlockAudio);
+    };
+  }, []); // Run only once
 
   useEffect(() => {
     // Randomize which rectangle is 'rug'
@@ -37,12 +78,35 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Initialize audio once
+  useEffect(() => {
+    rugAudioRef.current = new Audio(rugSoundSrc);
+    rugAudioRef.current.volume = 0.7;
+    rugAudioRef.current.loop = true;
+  }, []);
+
   useEffect(() => {
     if (!owlRef.current) return;
     if (owlPlaying) {
       owlRef.current.play();
     } else {
       owlRef.current.stop();
+    }
+  }, [owlPlaying]);
+
+  useEffect(() => {
+    const audio = rugAudioRef.current;
+    if (!audio) return;
+
+    if (owlPlaying) {
+      // Play audio and ignore promise rejection if autoplay is blocked
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    } else {
+      audio.pause();
+      audio.currentTime = 0; // Reset audio to the beginning
     }
   }, [owlPlaying]);
 
@@ -165,7 +229,9 @@ function App() {
                 atr={rect.atr as 'rug' | 'trust'}
                 parentSvg={rect.parentSvg}
                 position={position}
-                onRugHover={(hovered) => setOwlPlaying(hovered)}
+                onRugHover={(hovered) => {
+                  setOwlPlaying(hovered);
+                }}
               />
             ))}
           </div>
