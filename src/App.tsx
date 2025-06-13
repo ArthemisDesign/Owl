@@ -32,21 +32,26 @@ function App() {
     const unlockAudio = () => {
       const audio = rugAudioRef.current;
       if (audio && audio.paused) {
-        // A short, silent play attempt to unlock the audio context
-        const originalVolume = audio.volume;
-        audio.volume = 0;
+        // Mute the audio, play it, then pause it and unmute it.
+        // This is a robust way to unlock audio for programmatic playback
+        // on mobile browsers without the user hearing anything.
+        const wasMuted = audio.muted;
+        audio.muted = true;
+
         const playPromise = audio.play();
         if (playPromise !== undefined) {
           playPromise
             .then(() => {
               audio.pause();
               audio.currentTime = 0;
-              audio.volume = originalVolume;
+              audio.muted = wasMuted; // Restore original mute state
             })
             .catch(() => {
-              // If it fails, restore volume anyway
-              audio.volume = originalVolume;
+              // Restore mute state even if play() fails
+              audio.muted = wasMuted;
             });
+        } else {
+            audio.muted = wasMuted;
         }
       }
       // Clean up event listeners after the first interaction
