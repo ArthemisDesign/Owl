@@ -7,7 +7,7 @@ import OwlAnimation from './assets/OWL.json';
 import rugSoundSrc from './assets/RUG.ogg';
 
 const GUY_SVGS = ['GUY1.svg', 'GUY2.svg', 'GUY3.svg', 'GUY4.svg', 'GUY5.svg'];
-const CONTRACT_ADDRESS = '0x1234...abcd';
+const CONTRACT_ADDRESS = '0x2630997aAB62fA1030a8b975e1AA2dC573b18a13';
 
 function getRandomGuySvg() {
   return GUY_SVGS[Math.floor(Math.random() * GUY_SVGS.length)];
