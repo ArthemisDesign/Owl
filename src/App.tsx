@@ -23,6 +23,7 @@ function App() {
   ]);
   const [copied, setCopied] = useState(false);
   const [owlPlaying, setOwlPlaying] = useState(false);
+  const [showGuys, setShowGuys] = useState(false);
   const owlRef = React.useRef<LottieRefCurrentProps>(null);
   const rugAudioRef = React.useRef<HTMLAudioElement | null>(null);
 
@@ -124,11 +125,11 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen w-full" style={{ background: 'linear-gradient(180deg, #1DB39B 0%, #072723 100%)' }} onMouseMove={handleMouseMove}>
+    <div className="min-h-screen w-full overflow-x-hidden" style={{ background: 'linear-gradient(180deg, #1DB39B 0%, #072723 100%)' }} onMouseMove={handleMouseMove}>
       {/* <CustomCursor position={position} /> */}
       {/* Hero Section */}
       <header className="text-white flex flex-col">
-        <nav className="container mx-auto px-2 py-2">
+        <nav className="w-full px-4 py-2">
           {/* Mobile layout */}
           <div className="flex flex-col w-full md:hidden">
             {/* Top line: logo, name, socials */}
@@ -167,12 +168,22 @@ function App() {
             </div>
           </div>
           {/* Desktop layout (unchanged) */}
-          <div className="hidden md:flex flex-row justify-between items-center w-full">
-            <div className="flex items-center space-x-2">
+          <div className="hidden md:grid md:grid-cols-3 items-center w-full gap-4">
+            <div className="flex items-center space-x-2 justify-self-start">
               <img src="/OWL.svg" alt="Owl Logo" className="h-16 w-16" />
               <span className="text-3xl font-bold">OWLERT</span>
             </div>
-            <div className="flex flex-row items-center gap-3 sm:gap-6">
+            {/* CA for desktop */}
+            <div
+              className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-6 py-2 flex items-center justify-center cursor-pointer justify-self-center"
+              style={{ minWidth: 260 }}
+              onClick={handleCopy}
+            >
+              <span className="text-white font-semibold text-center select-all">
+                {copied ? 'Copied!' : CONTRACT_ADDRESS}
+              </span>
+            </div>
+            <div className="flex flex-row items-center gap-3 sm:gap-6 justify-self-end">
               <button
                 className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-6 py-2 font-semibold text-white cursor-pointer transition hover:opacity-80"
                 onClick={() => window.open('https://t.me/owlerthl', '_blank')}
@@ -200,7 +211,7 @@ function App() {
         </nav>
         <div className="flex flex-col items-center mt-8">
           <div
-            className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-6 py-2 mb-8 flex items-center justify-center cursor-pointer"
+            className="backdrop-blur-sm bg-white/10 border border-white/20 shadow-lg rounded-2xl px-6 py-2 mb-8 flex items-center justify-center cursor-pointer md:hidden"
             style={{ minWidth: 260 }}
             onClick={handleCopy}
           >
@@ -220,20 +231,33 @@ function App() {
             animationData={OwlAnimation}
             loop={true}
             autoplay={false}
-            className="h-44 md:h-[22rem] w-auto self-start -ml-2 mb-4"
+            className="h-44 md:h-[22rem] w-auto mb-24"
           />
-          <div className="container mx-auto px-6 text-center flex-grow flex flex-row justify-center items-center">
-            {rectangles.map((rect, index) => (
-              <Rectangle
-                key={index}
-                atr={rect.atr as 'rug' | 'trust'}
-                parentSvg={rect.parentSvg}
-                position={position}
-                onRugHover={(hovered) => {
-                  setOwlPlaying(hovered);
-                }}
-              />
-            ))}
+          <div className="w-full px-1 text-center flex-grow flex flex-col justify-center items-center">
+            {!showGuys ? (
+              <div className="flex flex-col items-center">
+                <button
+                  className="bg-[#97FCE4] text-black shadow-lg rounded-2xl px-12 py-6 font-semibold cursor-pointer transition hover:opacity-80 text-4xl mb-40"
+                  onClick={() => setShowGuys(true)}
+                >
+                  Find the rugger
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-row flex-wrap justify-center items-center">
+                {rectangles.map((rect, index) => (
+                  <Rectangle
+                    key={index}
+                    atr={rect.atr as 'rug' | 'trust'}
+                    parentSvg={rect.parentSvg}
+                    position={position}
+                    onRugHover={(hovered) => {
+                      setOwlPlaying(hovered);
+                    }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
         {/* Modern Description Card - placed after the guys, before features */}

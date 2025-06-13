@@ -46,7 +46,7 @@ const Rectangle: React.FC<RectangleProps> = ({ atr, parentSvg, position, onRugHo
   return (
     <div
       ref={containerRef}
-      className="relative w-64 h-[30rem] m-4"
+      className="relative w-24 h-[15rem] md:w-64 md:h-[30rem] m-1 md:m-4"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       data-atr={atr}
