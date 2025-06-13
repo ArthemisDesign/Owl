@@ -4,6 +4,7 @@ interface RectangleProps {
   atr: 'rug' | 'trust';
   parentSvg: string;
   position: { x: number; y: number };
+  onRugHover?: (hovered: boolean) => void;
 }
 
 // Constants for the magnifying glass SVG
@@ -12,7 +13,7 @@ const GLASS_CENTER_X = 64;  // px (center of glass in SVG)
 const GLASS_CENTER_Y = 64;  // px (center of glass in SVG)
 const MASK_RADIUS = 64;     // px (should match glass radius)
 
-const Rectangle: React.FC<RectangleProps> = ({ atr, parentSvg, position }) => {
+const Rectangle: React.FC<RectangleProps> = ({ atr, parentSvg, position, onRugHover }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [relativePosition, setRelativePosition] = useState({ x: -100, y: -100 });
 
@@ -29,13 +30,25 @@ const Rectangle: React.FC<RectangleProps> = ({ atr, parentSvg, position }) => {
 
   const childSvg = atr === 'trust' ? 'TRUST.svg' : 'RUG.svg';
 
+  const handleMouseEnter = () => {
+    if (atr === 'rug') {
+      onRugHover?.(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setRelativePosition({ x: -100, y: -100 });
+    if (atr === 'rug') {
+      onRugHover?.(false);
+    }
+  };
+
   return (
     <div
       ref={containerRef}
       className="relative w-64 h-[30rem] m-4"
-      onMouseLeave={() => {
-        setRelativePosition({ x: -100, y: -100 });
-      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       data-atr={atr}
     >
       {/* Parent SVG */}

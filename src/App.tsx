@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Globe2 } from 'lucide-react';
 import Rectangle from './components/Rectangle';
 import CustomCursor from './components/CustomCursor';
+import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import OwlAnimation from './assets/OWL.json';
 
 const GUY_SVGS = ['GUY1.svg', 'GUY2.svg', 'GUY3.svg', 'GUY4.svg', 'GUY5.svg'];
 const CONTRACT_ADDRESS = '0x1234...abcd';
@@ -19,6 +21,8 @@ function App() {
     { atr: 'trust', parentSvg: '' },
   ]);
   const [copied, setCopied] = useState(false);
+  const [owlPlaying, setOwlPlaying] = useState(false);
+  const owlRef = React.useRef<LottieRefCurrentProps>(null);
 
   useEffect(() => {
     // Randomize which rectangle is 'rug'
@@ -32,6 +36,15 @@ function App() {
     setRectangles(withUniqueSvgs);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!owlRef.current) return;
+    if (owlPlaying) {
+      owlRef.current.play();
+    } else {
+      owlRef.current.stop();
+    }
+  }, [owlPlaying]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     setPosition({
@@ -137,9 +150,23 @@ function App() {
               This owl won't sleep — it will keep alerting you about profit opportunities and guarding you from rugs
             </span>
           </div>
+          {/* Animated Owl stuck to left border */}
+          <Lottie
+            lottieRef={owlRef}
+            animationData={OwlAnimation}
+            loop={true}
+            autoplay={false}
+            className="h-44 md:h-[22rem] w-auto self-start -ml-2 mb-4"
+          />
           <div className="container mx-auto px-6 text-center flex-grow flex flex-row justify-center items-center">
             {rectangles.map((rect, index) => (
-              <Rectangle key={index} atr={rect.atr as 'rug' | 'trust'} parentSvg={rect.parentSvg} position={position} />
+              <Rectangle
+                key={index}
+                atr={rect.atr as 'rug' | 'trust'}
+                parentSvg={rect.parentSvg}
+                position={position}
+                onRugHover={(hovered) => setOwlPlaying(hovered)}
+              />
             ))}
           </div>
         </div>
