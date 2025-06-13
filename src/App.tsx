@@ -7,7 +7,7 @@ import OwlAnimation from './assets/OWL.json';
 import rugSoundSrc from './assets/RUG.ogg';
 
 const GUY_SVGS = ['GUY1.svg', 'GUY2.svg', 'GUY3.svg', 'GUY4.svg', 'GUY5.svg'];
-const CONTRACT_ADDRESS = '0x2630997aAB62fA1030a8b975e1AA2dC573b18a13';
+const CONTRACT_ADDRESS = '0x86066e4E1c316418F197e745e8FeFd9e8E561021';
 
 function getRandomGuySvg() {
   return GUY_SVGS[Math.floor(Math.random() * GUY_SVGS.length)];
@@ -285,7 +285,7 @@ function App() {
             <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6 text-center drop-shadow-lg tracking-wide">Features coming soon:</h3>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 text-white w-full">
               <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Token creation method where the token was launched from (directly through the LiquidLaunch platform or from other platforms / custom contracts). This will warn you about the possibility of the dev buying from external wallets</span></li>
-              <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Dev wallet tracking - we'll show where the dev got their tokens from (transferred from an exchange or another wallet). This will help you evaluate the dev's transparency and check if any of their other wallets are tied to scams</span></li>
+              <li className="flex items-start space-x-3"><span className="mt-2 w-2.5 h-2.5 bg-white rounded-full block aspect-square"></span><span>Dev wallet tracking we'll show where the dev got their tokens from (transferred from an exchange or another wallet). This will help you evaluate the dev's transparency and check if any of their other wallets are tied to scams</span></li>
             </ul>
           </div>
         </section>
